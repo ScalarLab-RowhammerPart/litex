@@ -186,6 +186,11 @@ def main():
     parser.add_argument("--udp-port",        default=1234,           help="Set UDP remote port.")
     parser.add_argument("--udp-scan",        action="store_true",    help="Scan network for available UDP devices.")
 
+    # TCP arguments
+    parser.add_argument("--tcp",             action="store_true",    help="Select TCP interface.")
+    parser.add_argument("--tcp-ip",          default="192.168.1.50", help="Set TCP remote IP address.")
+    parser.add_argument("--tcp-port",        default=1234,           help="Set TCP remote port.")
+
     # PCIe arguments
     parser.add_argument("--pcie",            action="store_true",    help="Select PCIe interface.")
     parser.add_argument("--pcie-bar",        default=None,           help="Set PCIe BAR.")
@@ -236,6 +241,14 @@ def main():
         else:
             print("[CommUDP] ip: {} / port: {} / ".format(udp_ip, udp_port), end="")
             comm = CommUDP(udp_ip, udp_port, debug=args.debug)
+    
+    # TCP mode
+    elif args.tcp:
+        from litex.tools.remote.comm_tcp import CommTCP
+        tcp_ip   = args.tcp_ip
+        tcp_port = int(args.tcp_port)
+        print("[CommTCP] ip: {} / port: {} / ".format(tcp_ip, tcp_port), end="")
+        comm = CommTCP(tcp_ip, tcp_port, debug=args.debug)
 
     # PCIe mode
     elif args.pcie:
