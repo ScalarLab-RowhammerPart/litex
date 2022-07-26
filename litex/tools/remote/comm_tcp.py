@@ -21,14 +21,12 @@ class CommTCP(CSRBuilder):
         self.port   = port
         self.debug  = debug
 
-    def open(self, probe=True):
+    def open(self, probe=False):
         if hasattr(self, "socket"):
             return
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.server, self.port))
         self.socket.settimeout(2)
-        if probe:
-            self.probe(self.server, self.port)
 
     def close(self):
         if not hasattr(self, "socket"):
